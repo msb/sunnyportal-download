@@ -1,0 +1,48 @@
+version: '3.2'
+services:
+
+  selenium-chrome:
+    image: selenium/standalone-chrome:3.141.59-zirconium
+    expose:
+      - "4444"
+    volumes:
+      - downloads:/tmp
+
+  script-service: &script-service
+    image: sunnyportal-download
+    depends_on:
+      - "selenium-chrome"
+    env_file:
+      - sunnyportal-download.env
+    volumes:
+      - &downloads 
+        type: volume
+        source: downloads
+        target: /data
+        read_only: true
+
+  sunnyportal-download: 
+    <<: *script-service
+    image: msb140610/sunnyportal-download:1
+    volumes:
+      - *downloads
+      - &credentials
+        type: bind
+        source: ./gdrive_credentials.json
+        target: /credentials_file.json
+        read_only: true
+
+  sunnyportal-development: 
+    <<: *script-service
+    build:
+      context: .
+    volumes:
+      - *downloads
+      - *credentials
+      - type: bind
+        source: .
+        target: /app
+        read_only: true
+      
+volumes:
+  downloads:
