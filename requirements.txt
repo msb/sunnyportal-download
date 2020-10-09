@@ -1,3 +1,4 @@
 fs.dropboxfs
 fs.onedrivefs
+fs.googledrivefs
 selenium

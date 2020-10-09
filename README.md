@@ -18,15 +18,14 @@ time as the script. To run the script using the Compose file:
 - download  [sunnyportal-download.env.in](https://raw.githubusercontent.com/msb/sunnyportal-download/master/sunnyportal-download.env.in), 
   rename to `sunnyportal-download.env`, and complete.
 - configure a GDrive generation data file store (see below)
-- run `docker-compose run sunnyportal-download`
+- run `docker-compose run sunnyportal-download` (once you have completed the following configuration)
 
 Once the script is complete, the composed containers can be removed with `docker-compose down`
 
 The script uses [PyFilesystem](https://github.com/pyfilesystem/pyfilesystem2) to write data files
 to the store so the script can be configured to write to any file system supported by PyFilesystem
 which could be useful if you aren't running docker locally. The container has been configured with
-the `fs.dropboxfs` and  `fs.onedrivefs` third party file systems and a 
-[custom WIP version of `fs.googledrivefs`](https://github.com/msb/fs.googledrivefs/tree/file_id_support).
+the `fs.dropboxfs`,  `fs.onedrivefs`, and `fs.googledrivefs`.
 
 The orchestration file is configured for GDrive and the instructions are as follows:
 
@@ -47,7 +46,7 @@ with permission on the target directory. The set up steps are sketched as follow
 Then update the `sunnyportal-download.env` file with the following variables:
 
 ```
-FILE_STORE_PATH=googledrive:///{the id of the target GDrive folder}?service_account_credentials_file=%2Fcredentials_file.json
+FILE_STORE_PATH=googledrive:///?root_id={the id of the target GDrive folder}
 ```
 
 ### Development
