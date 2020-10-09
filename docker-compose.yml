@@ -13,7 +13,7 @@ services:
     depends_on:
       - "selenium-chrome"
     environment:
-        - GOOGLE_APPLICATION_CREDENTIALS=/credentials_file.json
+        - GOOGLE_APPLICATION_CREDENTIALS=/credentials.json
     env_file:
       - sunnyportal-download.env
     volumes:
@@ -25,13 +25,13 @@ services:
 
   sunnyportal-download: 
     <<: *script-service
-    image: msb140610/sunnyportal-download:1
+    image: msb140610/sunnyportal-download:1.0
     volumes:
       - *downloads
       - &credentials
         type: bind
-        source: ./gdrive_credentials.json
-        target: /credentials_file.json
+        source: ./runner/service_account_credentials.json
+        target: /credentials.json
         read_only: true
 
   sunnyportal-development:

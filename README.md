@@ -31,17 +31,19 @@ The orchestration file is configured for GDrive and the instructions are as foll
 
 ### Configuring a GDrive generation data file store
 
-There are different ways of authenticating to GDrive API but this example uses a service account
-with permission on the target directory. The set up steps are sketched as follows:
+There are different ways of authenticating to GDrive API but this example uses a GCP service
+account with permission on the target directory. The set up steps are as follows:
 
- - create a GCP project
- - In that project:
-   - create a GCP service account, downloading it's credentials file 
-     (naming it `gdrive_credentials.json`)
-   - enable the GDrive API
- - Allow the service account read/write permission on the target GDrive folder 
-   (use it's email address)
- - Note the id of the target GDrive folder 
+ - Create [a GCP project](https://cloud.google.com/storage/docs/projects) to contain your cluster.
+   [A Terraform module](https://github.com/msb/tf-gcp-project) has been provided to automate this 
+   for you. Following the module's README you will see that this step has already been partially
+   completed by the inclusion of 
+   [the `project` folder](https://github.com/msb/sunnyportal-download/tree/master/project).
+   Note that when running `terraform.output.sh` you should target the output at 
+   [the `runner` folder](https://github.com/msb/sunnyportal-download/tree/master/runner) as the
+   orchestration file expects to find the service account credentials there.
+ - Allow the service account read/write permission on the target directory
+   (use the email address found in the credentials file in the `runner` folder)
 
 Then update the `sunnyportal-download.env` file with the following variables:
 
